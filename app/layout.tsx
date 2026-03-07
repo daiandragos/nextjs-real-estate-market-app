@@ -4,9 +4,9 @@ import { Geist_Mono, Inter, Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { SanityLive } from "@/sanity/lib/live";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 // body font
 const inter = Inter({
@@ -90,6 +90,7 @@ export default function RootLayout({
           className={`${geistMono.variable} ${inter.variable} ${plusJakarta.variable} font-body antialiased`}
         >
           {children}
+          <Toaster />
           <SanityLive />
         </body>
       </html>
