@@ -55,10 +55,6 @@
   --container-2xl: 1400px;
 }
 
-/* ============================================
-   NESTWELL - Earth Tone Design System
-   ============================================ */
-
 :root {
   /* Base radius - friendlier, more rounded */
   --radius: 0.75rem;

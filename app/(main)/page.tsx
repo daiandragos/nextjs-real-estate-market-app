@@ -13,6 +13,7 @@ import { PropertyGrid } from "@/components/property/property-grid";
 import { Input } from "@/components/ui/input";
 import { FEATURED_PROPERTIES_QUERY } from "@/lib/sanity/queries";
 import { sanityFetch } from "@/sanity/lib/live";
+import { FEATURED_PROPERTIES_QUERYResult } from "@/sanity.types";
 
 export default async function HomePage() {
   const { data: featuredProperties } = await sanityFetch({
@@ -121,7 +122,7 @@ export default async function HomePage() {
           </div>
 
           {featuredProperties && featuredProperties.length > 0 ? (
-            <PropertyGrid properties={featuredProperties} />
+            <PropertyGrid properties={featuredProperties as any} />
           ) : (
             <div className="text-center py-16 bg-accent/50 rounded-2xl border border-border/50">
               <Home
@@ -218,7 +219,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary-foreground text-sm font-medium mb-4">
-                Why Choose Nestwell
+                Why Choose Our App
               </span>
               <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6">
                 Built for First-Time Homebuyers
