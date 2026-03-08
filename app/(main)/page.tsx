@@ -40,7 +40,7 @@ export default async function HomePage() {
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
               Search for your first house easily. Browse curated properties,
-              save facourite listings, and get in touch with trusted imaginary
+              save favourite listings, and get in touch with trusted imaginary
               agents.
             </p>
 
@@ -79,7 +79,7 @@ export default async function HomePage() {
                   className="h-2 w-2 rounded-full bg-success"
                   aria-hidden="true"
                 />
-                <span>100,000+ Current Listings</span>
+                <span>10,000+ Current Listings</span>
               </div>
               <div className="flex items-center gap-2">
                 <div
@@ -299,7 +299,7 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
-                    100,000+
+                    10,000+
                   </div>
                   <p className="text-primary-foreground/80">Active Listings</p>
                 </div>
