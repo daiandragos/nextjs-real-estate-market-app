@@ -8,11 +8,11 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { PropertyGrid } from "@/components/property/property-grid";
 import { Button } from "@/components/ui/button";
+import { PropertyGrid } from "@/components/property/property-grid";
 import { Input } from "@/components/ui/input";
-import { sanityFetch } from "@/sanity/lib/live";
 import { FEATURED_PROPERTIES_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 
 export default async function HomePage() {
   const { data: featuredProperties } = await sanityFetch({
