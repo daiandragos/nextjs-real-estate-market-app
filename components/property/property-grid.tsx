@@ -1,10 +1,10 @@
 "use client";
 
-import type { Property } from "@/types";
 import { PropertyCard } from "./property-card";
+import type { PROPERTIES_SEARCH_QUERYResult } from "@/sanity.types";
 
 interface PropertyGridProps {
-  properties: Property[];
+  properties: PROPERTIES_SEARCH_QUERYResult;
   onSave?: (propertyId: string) => void;
   savedIds?: string[];
   showRemoveButton?: boolean;
@@ -29,7 +29,7 @@ export function PropertyGrid({
       {properties.map((property) => (
         <PropertyCard
           key={property._id}
-          property={property}
+          property={property as any}
           onSave={onSave}
           isSaved={savedIds.includes(property._id)}
           showRemoveButton={showRemoveButton}

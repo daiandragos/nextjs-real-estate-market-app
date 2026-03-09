@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/loading-button";
 import { Textarea } from "@/components/ui/textarea";
-import type { Agent } from "@/types";
+import type { AGENT_PROFILE_QUERYResult } from "@/sanity.types";
 
 const formSchema = z.object({
   bio: z.string().min(50, "Bio must be at least 50 characters"),
@@ -30,7 +30,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface AgentProfileFormProps {
-  agent: Agent;
+  agent: AGENT_PROFILE_QUERYResult;
 }
 
 export function AgentProfileForm({ agent }: AgentProfileFormProps) {
@@ -39,10 +39,10 @@ export function AgentProfileForm({ agent }: AgentProfileFormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bio: agent.bio || "",
-      phone: agent.phone || "",
-      licenseNumber: agent.licenseNumber || "",
-      agency: agent.agency || "",
+      bio: agent?.bio || "",
+      phone: agent?.phone || "",
+      licenseNumber: agent?.licenseNumber || "",
+      agency: agent?.agency || "",
     },
   });
 
@@ -71,7 +71,7 @@ export function AgentProfileForm({ agent }: AgentProfileFormProps) {
           </label>
           <Input
             id="agent-name"
-            value={agent.name}
+            value={agent?.name || "Name"}
             disabled
             className="bg-muted"
           />
@@ -86,7 +86,7 @@ export function AgentProfileForm({ agent }: AgentProfileFormProps) {
           </label>
           <Input
             id="agent-email"
-            value={agent.email}
+            value={agent?.email || ""}
             disabled
             className="bg-muted"
           />

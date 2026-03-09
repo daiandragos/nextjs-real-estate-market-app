@@ -94,7 +94,7 @@ export default async function ListingsPage() {
                       {listing.image?.asset ? (
                         <Image
                           src={urlFor(listing.image).width(80).height(60).url()}
-                          alt={listing.title}
+                          alt={listing.title || "Property Image"}
                           width={80}
                           height={60}
                           className="rounded object-cover"
@@ -120,14 +120,14 @@ export default async function ListingsPage() {
                   <TableCell>
                     <ListingStatusSelect
                       listingId={listing._id}
-                      currentStatus={listing.status}
+                      currentStatus={listing.status || "active"}
                     />
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {listing.bedrooms} beds • {listing.bathrooms} baths
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatDate(listing.createdAt)}
+                    {formatDate(listing.createdAt || new Date().toISOString())}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
