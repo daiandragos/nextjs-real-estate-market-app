@@ -34,7 +34,7 @@ export function AgentCard({ agent, children }: AgentCardProps) {
               />
             ) : null}
             <AvatarFallback className="text-lg">
-              {getInitials(agent.name)}
+              {getInitials(agent.name || "AG")}
             </AvatarFallback>
           </Avatar>
           <div>

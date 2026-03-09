@@ -5,7 +5,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { z } from "zod/v3";
 import { completeUserOnboarding } from "@/actions/users";
 import { Card, CardContent } from "@/components/ui/card";
 import {

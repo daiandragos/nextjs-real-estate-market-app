@@ -105,7 +105,7 @@ export default async function PropertyPage({
               Properties
             </Link>
             <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            <span className="text-foreground font-medium truncate max-w-[200px]">
+            <span className="text-foreground font-medium truncate max-w-50">
               {property.title}
             </span>
           </nav>
@@ -238,7 +238,7 @@ export default async function PropertyPage({
                         key={amenity}
                         className="flex items-center gap-3 p-3 rounded-lg bg-accent/50"
                       >
-                        <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center shrink-0">
                           <Check
                             className="h-4 w-4 text-success"
                             aria-hidden="true"
