@@ -60,7 +60,9 @@ export const PROPERTIES_SEARCH_QUERY = defineQuery(`
     location,
     amenities,
     openHouseDate,
-    createdAt
+    createdAt,
+    propertyType,
+    status
   }
 `);
 
@@ -151,6 +153,7 @@ export const AGENT_LEADS_QUERY = defineQuery(`
 export const USER_PROFILE_QUERY = defineQuery(`
   *[_type == "user" && clerkId == $clerkId][0] {
     _id,
+    clerkId,
     name,
     email,
     phone,

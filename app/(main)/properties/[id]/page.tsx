@@ -38,11 +38,13 @@ export async function generateMetadata({
     return { title: "Property Not Found" };
   }
 
-  const price = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(property.price);
+  const price = property.price
+    ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+      }).format(property.price)
+    : "No price available";
 
   return {
     title: `${property.title} - ${price}`,

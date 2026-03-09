@@ -6,10 +6,20 @@ import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { urlFor } from "@/sanity/lib/image";
-import type { SanityImage } from "@/types";
+import type { SanityImageDimensions } from "@/sanity.types";
 
 interface ImageGalleryProps {
-  images: SanityImage[];
+  images: Array<{
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: SanityImageDimensions | null;
+      } | null;
+    } | null;
+    alt: string | null;
+  }> | null;
   title: string;
 }
 
@@ -17,13 +27,15 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
+  const imagesLength = images?.length || 0;
+
   const goToPrevious = useCallback(() => {
-    setSelectedIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
-  }, [images.length]);
+    setSelectedIndex((prev) => (prev > 0 ? prev - 1 : imagesLength - 1));
+  }, [imagesLength]);
 
   const goToNext = useCallback(() => {
-    setSelectedIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
-  }, [images.length]);
+    setSelectedIndex((prev) => (prev < imagesLength - 1 ? prev + 1 : 0));
+  }, [imagesLength]);
 
   // keyboard navigation
   const handleKeyDown = useCallback(

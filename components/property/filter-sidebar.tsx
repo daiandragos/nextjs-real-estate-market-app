@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Amenity } from "@/types";
+import type { AMENITIES_QUERYResult } from "@/sanity.types";
 
 const PROPERTY_TYPES = [
   { value: "all", label: "All Types" },
@@ -58,7 +58,7 @@ const DAYS_ON_MARKET_OPTIONS = [
 ];
 
 interface FilterSidebarProps {
-  amenities: Amenity[];
+  amenities: AMENITIES_QUERYResult;
 }
 
 export function FilterSidebar({ amenities }: FilterSidebarProps) {
@@ -108,6 +108,7 @@ export function FilterSidebar({ amenities }: FilterSidebarProps) {
   };
 
   const handleAmenityToggle = (amenity: string) => {
+    if (!amenity) return;
     setFilters((prev) => ({
       ...prev,
       amenities: prev.amenities.includes(amenity)
@@ -536,26 +537,29 @@ export function FilterSidebar({ amenities }: FilterSidebarProps) {
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Amenities</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  {amenities.map((amenity) => (
-                    <div
-                      key={amenity.value}
-                      className="flex items-center space-x-2"
-                    >
-                      <Checkbox
-                        id={`amenity-${amenity.value}`}
-                        checked={filters.amenities.includes(amenity.value)}
-                        onCheckedChange={() =>
-                          handleAmenityToggle(amenity.value)
-                        }
-                      />
-                      <Label
-                        htmlFor={`amenity-${amenity.value}`}
-                        className="text-sm cursor-pointer font-normal"
+                  {amenities.map((amenity) => {
+                    if (!amenity.value) return null;
+                    return (
+                      <div
+                        key={amenity.value}
+                        className="flex items-center space-x-2"
                       >
-                        {amenity.label}
-                      </Label>
-                    </div>
-                  ))}
+                        <Checkbox
+                          id={`amenity-${amenity.value}`}
+                          checked={filters.amenities.includes(amenity.value)}
+                          onCheckedChange={() =>
+                            handleAmenityToggle(amenity.value || "")
+                          }
+                        />
+                        <Label
+                          htmlFor={`amenity-${amenity.value}`}
+                          className="text-sm cursor-pointer font-normal"
+                        >
+                          {amenity.label}
+                        </Label>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

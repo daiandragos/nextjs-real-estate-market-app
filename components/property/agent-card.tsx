@@ -6,9 +6,29 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { urlFor } from "@/sanity/lib/image";
 import type { Agent } from "@/types";
+import type { SanityImageDimensions } from "@/sanity.types";
 
 interface AgentCardProps {
-  agent: Agent;
+  agent: {
+    _id: string;
+    userId: string | null;
+    name: string | null;
+    email: string | null;
+    phone: string | null;
+    photo: {
+      asset: {
+        _id: string;
+        url: string | null;
+        metadata: {
+          lqip: string | null;
+          dimensions: SanityImageDimensions | null;
+        } | null;
+      } | null;
+      alt: null;
+    } | null;
+    bio: string | null;
+    agency: string | null;
+  };
   children?: ReactNode;
 }
 
@@ -30,7 +50,7 @@ export function AgentCard({ agent, children }: AgentCardProps) {
             {agent.photo?.asset ? (
               <AvatarImage
                 src={urlFor(agent.photo).width(128).height(128).url()}
-                alt={agent.name}
+                alt={agent.name || "Agent Photo"}
               />
             ) : null}
             <AvatarFallback className="text-lg">

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/loading-button";
-import type { User } from "@/types";
+import type { USER_PROFILE_QUERYResult } from "@/sanity.types";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -26,7 +26,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface ProfileFormProps {
-  user: User;
+  user: USER_PROFILE_QUERYResult;
 }
 
 export function ProfileForm({ user }: ProfileFormProps) {
@@ -35,8 +35,8 @@ export function ProfileForm({ user }: ProfileFormProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.name,
-      phone: user.phone || "",
+      name: user?.name || "Name",
+      phone: user?.phone || "",
     },
   });
 
@@ -77,7 +77,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
           </label>
           <Input
             id="profile-email"
-            value={user.email}
+            value={user?.email || "Email"}
             disabled
             className="bg-muted"
           />
