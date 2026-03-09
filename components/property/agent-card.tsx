@@ -8,7 +8,7 @@ import { urlFor } from "@/sanity/lib/image";
 import type { Agent } from "@/types";
 
 interface AgentCardProps {
-  agent: Agent>;
+  agent: Agent;
   children?: ReactNode;
 }
 
