@@ -50,7 +50,7 @@ const STATUS_OPTIONS = [
 ];
 
 import type { Amenity } from "@/types";
-import {
+import type {
   AMENITIES_QUERYResult,
   LISTING_BY_ID_QUERYResult,
 } from "@/sanity.types";
