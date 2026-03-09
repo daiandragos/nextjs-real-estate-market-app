@@ -8,7 +8,7 @@ import { urlFor } from "@/sanity/lib/image";
 import type { Agent } from "@/types";
 
 interface AgentCardProps {
-  agent: Agent;
+  agent: Agent>;
   children?: ReactNode;
 }
 
@@ -34,7 +34,7 @@ export function AgentCard({ agent, children }: AgentCardProps) {
               />
             ) : null}
             <AvatarFallback className="text-lg">
-              {getInitials(agent.name)}
+              {getInitials(agent.name || "AG")}
             </AvatarFallback>
           </Avatar>
           <div>
