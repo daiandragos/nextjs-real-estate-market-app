@@ -50,6 +50,10 @@ const STATUS_OPTIONS = [
 ];
 
 import type { Amenity } from "@/types";
+import {
+  AMENITIES_QUERYResult,
+  LISTING_BY_ID_QUERYResult,
+} from "@/sanity.types";
 export type { Amenity };
 
 const formSchema = z.object({
@@ -89,28 +93,8 @@ interface GeoPoint {
 }
 
 interface ListingFormProps {
-  listing?: {
-    _id: string;
-    title: string;
-    description?: string;
-    price: number;
-    propertyType: string;
-    status: string;
-    bedrooms: number;
-    bathrooms: number;
-    squareFeet: number;
-    yearBuilt?: number;
-    address?: {
-      street?: string;
-      city?: string;
-      state?: string;
-      zipCode?: string;
-    };
-    location?: GeoPoint;
-    amenities?: string[];
-    images?: ListingImage[];
-  };
-  amenities: Amenity[];
+  listing?: LISTING_BY_ID_QUERYResult;
+  amenities: AMENITIES_QUERYResult;
   mode?: "create" | "edit";
 }
 
@@ -123,15 +107,24 @@ export function ListingForm({
 
   // initialize images from listing data
   const initialImages: ImageItem[] =
-    listing?.images?.map((img) => ({
-      id: img.asset._id,
-      url: img.asset.url,
-      assetRef: img.asset._id,
-    })) || [];
+    listing?.images
+      ?.map((img) => {
+        if (!img.asset || !img.asset.url) return null;
+        return {
+          id: img.asset._id,
+          url: img.asset.url,
+          assetRef: img.asset._id,
+        };
+      })
+      .filter((img) => img !== null) || [];
 
   const [images, setImages] = useState<ImageItem[]>(initialImages);
   const [location, setLocation] = useState<GeoPoint | undefined>(
-    listing?.location,
+    listing?.location &&
+      typeof listing.location.lat === "number" &&
+      typeof listing.location.lng === "number"
+      ? { lat: listing.location.lat, lng: listing.location.lng }
+      : undefined,
   );
 
   // build initial address display value for edit mode
@@ -161,7 +154,7 @@ export function ListingForm({
       bedrooms: listing?.bedrooms || 0,
       bathrooms: listing?.bathrooms || 0,
       squareFeet: listing?.squareFeet || 0,
-      yearBuilt: listing?.yearBuilt,
+      yearBuilt: listing?.yearBuilt ?? undefined,
       street: listing?.address?.street || "",
       city: listing?.address?.city || "",
       state: listing?.address?.state || "",
@@ -507,39 +500,44 @@ export function ListingForm({
                 <FormItem>
                   {amenities.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {amenities.map((amenity) => (
-                        <div
-                          key={amenity._id}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={amenity.value}
-                            checked={field.value?.includes(amenity.value)}
-                            onCheckedChange={(checked: boolean) => {
-                              const currentValue = field.value || [];
-                              if (checked) {
-                                field.onChange([
-                                  ...currentValue,
-                                  amenity.value,
-                                ]);
-                              } else {
-                                field.onChange(
-                                  currentValue.filter(
-                                    (v) => v !== amenity.value,
-                                  ),
-                                );
-                              }
-                            }}
-                            disabled={isPending}
-                          />
-                          <label
-                            htmlFor={amenity.value || ""}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                      {amenities.map((amenity) => {
+                        if (!amenity.value) return null;
+                        return (
+                          <div
+                            key={amenity._id}
+                            className="flex items-center space-x-2"
                           >
-                            {amenity.label}
-                          </label>
-                        </div>
-                      ))}
+                            <Checkbox
+                              id={amenity.value}
+                              checked={
+                                field.value?.includes(amenity.value) ?? false
+                              }
+                              onCheckedChange={(checked: boolean) => {
+                                const currentValue = field.value || [];
+                                if (checked) {
+                                  field.onChange([
+                                    ...currentValue,
+                                    amenity.value,
+                                  ]);
+                                } else {
+                                  field.onChange(
+                                    currentValue.filter(
+                                      (v) => v !== amenity.value,
+                                    ),
+                                  );
+                                }
+                              }}
+                              disabled={isPending}
+                            />
+                            <label
+                              htmlFor={amenity.value}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                            >
+                              {amenity.label}
+                            </label>
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground">
